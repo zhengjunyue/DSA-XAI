@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore class-wise and class-averaged controlled deletion experiments for DSA-XAI on TORGO and UASpeech.">
+  <meta name="theme-color" content="#f6f5f0">
+  <title>Controlled deletion results | DSA-XAI</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23232e2c'/%3E%3Cpath d='M10 24h5l4-12 7 25 5-18 3 5h4' stroke='%23d4e5b7' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#results">Skip to results</a>
+  <header class="site-header wrap">
+    <a class="brand" href="#top" aria-label="DSA-XAI home"><span class="brand-symbol" aria-hidden="true">∿</span> DSA-XAI <span class="brand-separator">/</span> <span class="brand-detail">Research supplement</span></a>
+    <nav aria-label="Main navigation"><a href="#results">Results</a><a href="#protocol">Protocol</a><a href="#downloads">Downloads <span aria-hidden="true">↗</span></a></nav>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> RQ1 / Explanation faithfulness</p>
+      <h1 id="hero-title">What changes when<br>training evidence<br><em>is removed?</em></h1>
+      <p class="hero-description">Controlled deletion and retraining for dysarthria severity assessment. Explore how removing supportive, counteracting, or random training utterances changes target-class accuracy.</p>
+      <a class="text-link" href="#results">Explore the experiments <span aria-hidden="true">↓</span></a></div>
+      <aside class="hero-aside" aria-label="Experiment at a glance">
+        <div class="aside-index">01 <span>/ The question</span></div>
+        <p>If a training case supports an assessment, does removing it change the model in the expected direction?</p>
+        <div class="experiment-flow"><span>Rank evidence</span><span aria-hidden="true">→</span><span>Remove cases</span><span aria-hidden="true">→</span><span>Retrain</span></div>
+        <dl class="study-stats"><div><dt>02</dt><dd>datasets</dd></div><div><dt>03</dt><dd>classifiers</dd></div><div><dt>5–20<span>%</span></dt><dd>training data removed</dd></div></dl>
+      </aside>
+    </section>
+
+    <section class="results-section" id="results" aria-labelledby="results-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="eyebrow">Explore the evidence</p><h2 id="results-title">Deletion results</h2></div><p>Start with the class averages.<br>Switch to individual classes for the full picture.</p></div>
+        <div class="explorer">
+          <div class="explorer-controls">
+            <div class="control-set"><span class="control-label" id="dataset-label">Dataset</span><div class="segmented" role="group" aria-labelledby="dataset-label"><button type="button" data-dataset="torgo" aria-pressed="true">TORGO</button><button type="button" data-dataset="uaspeech" aria-pressed="false">UASpeech</button></div></div>
+            <div class="control-set"><span class="control-label" id="view-label">Figure view</span><div class="segmented" role="group" aria-labelledby="view-label"><button type="button" data-view="average" aria-pressed="true">Class-averaged</button><button type="button" data-view="classwise" aria-pressed="false">Class-wise</button></div></div>
+            <button class="share-button" id="copy-link" type="button" aria-label="Copy a link to the current figure selection">Copy view link <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="filter-row" id="class-filters" hidden>
+            <label>Representation<select id="representation"><option value="fbank">FBank</option><option value="whisper">Whisper</option></select></label>
+            <label>Classifier<select id="classifier"><option value="lr">Logistic regression (LR)</option><option value="mlp">Multilayer perceptron (MLP)</option><option value="cnn">Convolutional neural network (CNN)</option></select></label>
+            <label>Gradient scope<select id="scope"><option value="full">Full model</option><option value="last">Final layer</option></select></label>
+            <p id="scope-help">For LR, full-model and final-layer gradients are equivalent.</p>
+          </div>
+          <div class="figure-heading"><div><p class="figure-kicker" id="figure-kicker">TORGO / 4 target classes</p><h3 id="figure-title">Accuracy averaged across target classes</h3></div><div class="figure-actions"><button type="button" id="enlarge">⤢ <span>Enlarge</span></button><a id="current-pdf" href="assets/rq1_torgo_average_class_curves.pdf" target="_blank" rel="noopener">Original PDF <span aria-hidden="true">↗</span></a></div></div>
+          <figure>
+            <button type="button" class="figure-image-button" id="figure-button" aria-label="Enlarge the selected result figure"><img id="result-image" src="assets/rq1_torgo_average_class_curves.png" width="2600" height="1153" alt="TORGO class-averaged deletion results. FBank and Whisper rows compare LR, MLP, and CNN under full-model or final-layer influence estimation."></button>
+            <figcaption id="figure-caption">Each panel averages target-class accuracy across four separate class-specific deletion experiments. Rows indicate speech representation; columns indicate classifier and gradient scope.</figcaption>
+          </figure>
+          <div class="legend" aria-label="Curve legend">
+            <span><i class="legend-mark positive" aria-hidden="true">●</i> Most positive <small>Supportive deletion</small></span>
+            <span><i class="legend-mark negative" aria-hidden="true">■</i> Most negative <small>Counteracting deletion</small></span>
+            <span><i class="legend-mark random" aria-hidden="true">▲</i> Random <small>Matched deletion budget</small></span>
+          </div>
+          <div class="reading-note"><span class="note-label">Reading this view</span><p id="reading-note">Each class has equal weight in the mean. This summarises separate target-class experiments; it is not the overall test accuracy of one retrained model.</p></div>
+          <p class="sr-only" id="selection-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="dataset-insight"><span class="insight-index">↳</span><div><h3 id="insight-title">What to look for in TORGO</h3><p id="insight-text">For LR and MLP, supportive deletion lowers mean target-class accuracy as the deletion fraction increases, while counteracting deletion generally preserves or improves it. Whisper-based CNN curves are less regular. Inspect the individual classes to see which groups drive each average.</p></div></div>
+      </div>
+    </section>
+
+    <section class="guide wrap" id="protocol" aria-labelledby="protocol-title">
+      <div class="section-heading"><div><p class="eyebrow">Behind the curves</p><h2 id="protocol-title">One ranking. Three deletion strategies.</h2></div></div>
+      <p class="section-intro">For each target test class, average training-sample influence over test utterances from that class. Rank the full training set using these scores, then compare equally sized deletions.</p>
+      <div class="strategy-grid">
+        <article class="strategy-card supportive"><span class="strategy-number">01 / Supportive</span><h3>Remove the most positive</h3><p>Delete training utterances with the highest influence scores for the target class.</p><p class="expected"><strong>Expected pattern</strong>Lower target-class accuracy than random deletion.</p></article>
+        <article class="strategy-card counteracting"><span class="strategy-number">02 / Counteracting</span><h3>Remove the most negative</h3><p>Delete training utterances with the lowest influence scores for the target class.</p><p class="expected"><strong>Expected pattern</strong>Target-class accuracy may improve when counteracting evidence is removed.</p></article>
+        <article class="strategy-card baseline"><span class="strategy-number">03 / Reference</span><h3>Remove a random set</h3><p>Delete the same number of randomly selected training utterances.</p><p class="expected"><strong>Purpose</strong>Distinguish influence-guided effects from simply reducing the training set.</p></article>
+      </div>
+      <div class="protocol-strip"><div><span>Deletion budget</span><strong>5%, 10%, 15%, 20%</strong><p>Fractions of the full training set, not of the target class alone.</p></div><div><span>After each deletion</span><strong>Retrain from scratch</strong><p>Keep the architecture, training configuration, and test set unchanged.</p></div><div><span>At 0% deletion</span><strong>The original classifier</strong><p>All three curves begin at the same pre-deletion baseline.</p></div></div>
+      <div class="definition-block"><div><p class="eyebrow">A note on averaging</p><h3>Class average ≠ overall accuracy</h3></div><div><p>For a fixed dataset, representation, classifier, gradient scope, deletion strategy and fraction, let A<sub>c</sub> be the accuracy on target class c after its own deletion-and-retraining experiment. The displayed class average is:</p><p class="formula" aria-label="Mean target accuracy equals one over K times the sum of A c over all K classes">Mean target accuracy = (1/K) ∑<sub>c=1</sub><sup>K</sup> A<sub>c</sub></p><p>Here K = 4 for TORGO and K = 5 for UASpeech. Different target classes can select different training utterances for deletion, so the average combines results from different retrained models.</p></div></div>
+      <details class="interpretation-details"><summary>Interpretation notes &amp; limits <span aria-hidden="true">+</span></summary><div><ul><li>Compare the three strategies within the same configuration and deletion fraction. Curves need not be monotonic, and counteracting deletion need not improve every class.</li><li>Class-wise panels use different vertical ranges. Compare numerical accuracy values rather than visual slope alone.</li><li>“Full” uses full-model gradients; “Last layer” uses final-layer gradients. LR has only one trainable classification layer, so these scopes coincide.</li><li>Class names and numeric IDs are retained exactly as shown in the supplied figures. TORGO's original class IDs are not an increasing severity scale; use the named labels when interpreting them.</li><li>Influence is computed using reference labels. These experiments test the model's dependence on training data for those labels, rather than directly explaining an incorrect predicted label.</li><li>The curves describe the supplied experimental partitions. They do not by themselves establish clinical utility or generalisation to unseen speakers.</li></ul></div></details>
+    </section>
+
+    <section class="downloads-section" id="downloads" aria-labelledby="downloads-title"><div class="wrap"><div class="section-heading"><div><p class="eyebrow">Original figures</p><h2 id="downloads-title">Take a closer look.</h2></div><p>Download the source PDFs for vector-quality figures.<br>Class-wise PDFs include all 10 configurations per dataset.</p></div>
+      <div class="download-grid"><article><span class="download-dataset">TORGO <small>4 target classes</small></span><a href="assets/rq1_torgo_average_class_curves.pdf" download>Class-averaged results <span>PDF ↓</span></a><a href="assets/rq1_torgo_deletion_curves.pdf" download>All class-wise results <span>PDF ↓</span></a></article><article><span class="download-dataset">UASpeech <small>5 target classes</small></span><a href="assets/rq1_uaspeech_average_class_curves.pdf" download>Class-averaged results <span>PDF ↓</span></a><a href="assets/rq1_uaspeech_deletion_curves.pdf" download>All class-wise results <span>PDF ↓</span></a></article></div>
+      <p class="source-note">Source: author-supplied RQ1 figures and the DSA-XAI manuscript's controlled deletion protocol. Curves are displayed from the original PDFs; no numerical results have been reconstructed from the images.</p>
+    </div></section>
+  </main>
+  <footer class="wrap"><span><strong>DSA-XAI</strong> / Case-based explanations for dysarthria severity assessment</span><a href="#top">Back to top ↑</a></footer>
+
+  <dialog id="image-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><h2 id="dialog-title">Result figure</h2><div class="zoom-tools"><label for="zoom">Zoom</label><input type="range" id="zoom" min="100" max="250" value="100" step="25"><output id="zoom-output" for="zoom">100%</output><button type="button" id="close-dialog" aria-label="Close enlarged figure">Close ×</button></div></div><div class="zoom-viewport"><img id="zoom-image" alt=""></div><p class="dialog-hint">Scroll to inspect the enlarged figure. Press Escape to close.</p></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
